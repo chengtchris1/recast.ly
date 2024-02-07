@@ -1,14 +1,31 @@
-var VideoListEntry = () => (
-  <div className="video-list-entry media">
-    <div className="media-left media-middle">
-      <img className="media-object" src="https://i.ytimg.com/vi/1w8Z0UOXVaY/default.jpg" alt="" />
+// import PropTypes from 'prop-types';
+
+var VideoListEntry = ({video, onVideoSelect}) => {
+  const [clicked, setClicked] = React.useState(false);
+  const style = {
+    background: clicked ? 'gray' : 'none'
+  };
+
+  const handleClick = () => {
+    setClicked(true);
+    onVideoSelect(video);
+    setTimeout(() => {
+      setClicked(false);
+    }, 250);
+  };
+  //Luke said handleClick is a good way do it.
+  return (
+    <div className="video-list-entry media" style={style} onClick={handleClick}>
+      <div className="media-left media-middle">
+        <img className="media-object" src={video.snippet.thumbnails.default.url} alt="" />
+      </div>
+      <div className="media-body">
+        <div className="video-list-entry-title">{video.snippet.title}</div>
+        <div className="video-list-entry-detail">{video.snippet.description}</div>
+      </div>
     </div>
-    <div className="media-body">
-      <div className="video-list-entry-title">Video Title</div>
-      <div className="video-list-entry-detail">Video Description</div>
-    </div>
-  </div>
-);
+  );
+};
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated
